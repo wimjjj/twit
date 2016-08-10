@@ -28,7 +28,22 @@ class User extends Authenticatable
         return $this->hasMany('Post');
     }
 
-    public function Comments(){
+    public function comments(){
         return $this->hasMany('Comment');
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany('App\User', 'friend_user', 'user_id', 'friend_id');
+    }
+
+    public function addFriend(User $friend){
+
+        $this->friends()->attach($friend->id);
+        $friend->friends()->attach($this->id);
+    }
+
+    public function isFriend(User $user){
+        return $this->friends->lists('id')->contains($user->id);
     }
 }

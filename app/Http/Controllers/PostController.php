@@ -9,14 +9,17 @@ use App\Http\Requests;
 use Auth;
 
 use App\Post;
-use App\Like;
 use App\Comment;
 use App\User;
 
 class PostController extends Controller
 {
-	private $validationRules = [
-	    'body' => 'required'
+	private $postValidationRules = [
+	    'body' => 'required|max:500'
+	];
+
+	private $commentValidationRules = [
+		'body' => 'required|max:250'
 	];
 
 	public function __construct(){
@@ -25,14 +28,19 @@ class PostController extends Controller
 
 	
 	public function index(){
-		$posts = Post::with('user', 'comments.user')->get();
+		$user = Auth::user();
+
+		$posts = Post::whereIn('user_id', $user->friends->lists('id'))
+						->orWhere('user_id', '=', $user->id)
+						->with('user', 'comments.user')
+						->get();
 
 		return view('posts.index', compact('posts'));
 	}
 
 
 	public function create(){
-		$this->validate(request(), $this->validationRules);
+		$this->validate(request(), $this->postValidationRules);
 
 		$post = New Post(request()->all());
 
@@ -51,15 +59,9 @@ class PostController extends Controller
 	}
 
 	public function comment(Post $post){
-		$comment = new Comment;
+		$this->validate(request(), $this->commentValidationRules);
 
-		$comment->body = request()->body;
-
-		$comment->post_id = $post->id;
-
-		$comment->user_id = Auth::id();
-
-		$comment->save();
+		$post->addComment(request()->body);
 
 		return back();
 	}

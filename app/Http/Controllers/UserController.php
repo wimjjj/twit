@@ -34,6 +34,8 @@ class UserController extends Controller
 
     	$posts = Post::where('user_id', '=', $userid)->with('comments.user')->get();
 
+        $user->with('friends');
+
     	return view('users.profile', compact('user', 'posts'));
     }
 
@@ -44,12 +46,17 @@ class UserController extends Controller
     }
 
     public function update(){
-    	$this->validate(request(), $this->validateRules);
+    	$this->validate(request(), ['name' => 'required|max:255', 'email' => 'required|email|max:255']);
 
     	$user = Auth::user();
 
     	$user->update(request()->all());
 
-    	return redirect('/profile');
+    	return back();
+    }
+
+    public function addFriend(User $user){
+        Auth::user()->addFriend($user);
+        return back();
     }
 }

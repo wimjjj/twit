@@ -28,3 +28,5 @@ Route::get('profile', 'UserController@profile');
 Route::get('profile/edit', 'UserController@edit');
 Route::post('profile/update', 'UserController@update');
 Route::get('users/{userid}', 'UserController@show');
+
+Route::post('users/{user}/addfriend', 'UserController@addFriend');

@@ -12,7 +12,7 @@
 	@endif
 
 	{{-- We show the 'add as friend' button only if the logged in user is not a friend of the showed user --}}
-	@if($user->id != Auth::id() && !Auth::user()->friends->lists('id')->contains($user->id))
+	@if($user->id != Auth::id() && !$user->isFriend(Auth::user()))
 		<form action="../users/{{{ $user->id }}}/addfriend" method="POST" role="button">
 			{{ csrf_field() }}
 			<input type="submit" value="add as friend" class="form-control btn btn-primary pull-right" style="max-width: 250px;">

@@ -1,5 +1,5 @@
 # Twit
 
-Basic socialnetwork: make post and comments.
+Basic socialnetwork: make friends, posts and comments.
 
 build with laravel

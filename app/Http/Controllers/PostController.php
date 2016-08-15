@@ -22,11 +22,6 @@ class PostController extends Controller
 		'body' => 'required|max:250'
 	];
 
-	public function __construct(){
-		$this->middleware('auth');
-	}
-
-	
 	public function index(){
 		$user = Auth::user();
 

@@ -17,16 +17,26 @@ Route::get('/', function(){
 	return redirect('/posts');
 });
 
-Route::get('posts', 'PostController@index');
-Route::post('posts', 'PostController@create');
-Route::get('posts/{post}', 'PostController@show');
-Route::post('posts/{post}', 'PostController@update');
-Route::post('posts/{post}/like', 'PostController@like');
-Route::post('posts/{post}/comment/', 'PostController@comment');
+/**
+ * {post} has a [0-9+] patern
+ */
+Route::group(['prefix' => 'posts', 'middleware' => 'auth'], function(){
+	Route::get('', ['middleware' => 'auth', 'uses' => 'PostController@index']);
+	Route::post('', 'PostController@create');
+	Route::post('/{post}', 'PostController@update');
+	Route::post('/{post}/like', 'PostController@like');
+	Route::post('/{post}/comment/', 'PostController@comment');
+});
 
-Route::get('profile', 'UserController@profile');
-Route::get('profile/edit', 'UserController@edit');
-Route::post('profile/update', 'UserController@update');
-Route::get('users/{userid}', 'UserController@show');
+Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function(){
+	Route::get('', 'UserController@profile');
+	Route::get('/edit', 'UserController@edit');
+	Route::post('/update', 'UserController@update');
+});
 
-Route::post('users/{user}/addfriend', 'UserController@addFriend');
+Route::group(['prefix' => 'users', 'middleware' => 'auth'], function(){
+	Route::post('/{user}/addfriend', 'UserController@addFriend')->where('user', '[0-9]+');
+	Route::get('/{userid}', 'UserController@show')->where('userid', '[0-9]+');
+});
+
+

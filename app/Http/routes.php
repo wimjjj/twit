@@ -18,7 +18,7 @@ Route::get('/', function(){
 });
 
 /**
- * {post} has a [0-9+] patern
+ * {post} has a [0-9]+ patern
  */
 Route::group(['prefix' => 'posts', 'middleware' => 'auth'], function(){
 	Route::get('', ['middleware' => 'auth', 'uses' => 'PostController@index']);

@@ -24,6 +24,8 @@ class UserController extends Controller
     public function profile(){
     	$user = Auth::user();
 
+        $user->with('friends');
+        
     	$posts = Post::where('user_id', '=', $user->id)->with('comments.user')->get();
 
     	return view('users.profile', compact('user', 'posts'));
@@ -46,7 +48,10 @@ class UserController extends Controller
     }
 
     public function update(){
-    	$this->validate(request(), ['name' => 'required|max:255', 'email' => 'required|email|max:255']);
+    	$this->validate(request(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255'
+        ]);
 
     	$user = Auth::user();
 

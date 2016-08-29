@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-
 use Auth;
-
 use App\Post;
 use App\User;
 
@@ -16,10 +14,6 @@ class UserController extends Controller
 			'name' => 'required|max:255',
         	'email' => 'required|email|max:255|unique:users'
     	];
-
-    public function __construct(){
-		$this->middleware('auth');
-	}
 
     public function profile(){
     	$user = Auth::user();

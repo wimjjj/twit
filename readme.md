@@ -10,6 +10,6 @@ Basic socialnetwork: make friends, posts and comments.
 ##to-do:
 * Searchfunction for users
 * tumbs up
-* paginaion
+* pagination
 
 build with laravel

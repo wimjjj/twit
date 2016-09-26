@@ -26,7 +26,7 @@
 		</tr>
 		<tr>
 			<td>email</td>
-			<td>{{{ $user->email}}}</td>
+			<td>{{{ $user->email }}}</td>
 		</tr>
 		<tr>
 			<td>job</td>

@@ -21,7 +21,7 @@ Route::get('/', function(){
  * {post} has a [0-9]+ patern
  */
 Route::group(['prefix' => 'posts', 'middleware' => 'auth'], function(){
-	Route::get('', ['middleware' => 'auth', 'uses' => 'PostController@index']);
+	Route::get('', 'PostController@index');
 	Route::post('', 'PostController@create');
 	Route::post('/{post}', 'PostController@update');
 	Route::post('/{post}/like', 'PostController@like');
